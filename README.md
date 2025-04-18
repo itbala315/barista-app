@@ -2,6 +2,19 @@
 
 This professional coffee dispensing application was built with Angular 18.
 
+## Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- **Node.js** (v18.x or later)
+- **npm** (v9.x or later)
+- **Angular CLI** (v18.x)
+- **Git** for version control
+- A modern web browser (Chrome, Firefox, Edge, or Safari)
+
+For Docker deployment:
+- **Docker** (v20.x or later)
+
 ## Features
 
 - Interactive coffee dispensing interface with animations

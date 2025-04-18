@@ -1,0 +1,34 @@
+<div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50" *ngIf="baristaService.dispensingDrink()">
+  <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full text-center">
+    <div class="relative w-32 h-32 mx-auto mb-6">
+      <!-- Coffee Cup with Tailwind animations -->
+      <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-24 h-24">
+        <!-- Cup body with dynamic cup color -->
+        <div class="relative w-full h-full rounded-b-3xl" [ngClass]="getCupColor()">
+          <!-- Cup fill animation with dynamic color and animation based on drink -->
+          <div class="absolute bottom-0 left-0 right-0 rounded-b-3xl" 
+              [ngClass]="[getDrinkColor(), getAnimationStyle()]"
+              style="height: 0%;">
+          </div>
+        </div>
+        <!-- Cup handle -->
+        <div class="absolute top-1/4 -right-4 w-6 h-12 border-4 border-gray-200 rounded-r-full"></div>
+        <!-- Steam animation with dynamic color -->
+        <div class="absolute -top-10 left-1/2 -translate-x-1/2 flex space-x-1">
+          <span class="block w-1 h-6 rounded-full animate-[rise_1.5s_ease-in-out_infinite]" 
+              [ngClass]="getSteamColor()"
+              style="animation-delay: 0s;"></span>
+          <span class="block w-1 h-8 rounded-full animate-[rise_2s_ease-in-out_infinite]" 
+              [ngClass]="getSteamColor()"
+              style="animation-delay: 0.3s;"></span>
+          <span class="block w-1 h-5 rounded-full animate-[rise_1.8s_ease-in-out_infinite]" 
+              [ngClass]="getSteamColor()"
+              style="animation-delay: 0.6s;"></span>
+        </div>
+      </div>
+    </div>
+    <h3 class="text-xl font-bold text-coffee-dark mb-2 dispenser-message">Dispensing your {{ baristaService.dispensingDrink() }}</h3>
+    <p class="text-gray-600">Please wait while your drink is being prepared...</p>
+  </div>
+</div>
+

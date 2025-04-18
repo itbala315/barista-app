@@ -1,0 +1,36 @@
+<div class="max-w-md mx-auto p-4 bg-white rounded-lg shadow-md">
+  <h2 class="text-xl font-bold text-center text-coffee-dark mb-4 pb-2 border-b border-gray-200">Inventory</h2>
+  
+  <div class="mb-4 overflow-hidden rounded-md border border-gray-200">
+    <div class="grid grid-cols-3 bg-gray-100 font-medium text-gray-700 text-sm">
+      <div class="p-3 border-r border-gray-200">Ingredient</div>
+      <div class="p-3 text-center border-r border-gray-200">Cost</div>
+      <div class="p-3 text-center">Stock</div>
+    </div>
+    
+    <div class="divide-y divide-gray-200">
+      <div 
+        class="grid grid-cols-3 hover:bg-gray-50 transition-colors" 
+        *ngFor="let ingredient of baristaService.ingredients()"
+        data-test-id="ingredient-item"
+      >
+        <div class="p-3 border-r border-gray-200">{{ ingredient.name }}</div>
+        <div class="p-3 text-center border-r border-gray-200">{{ ingredient.cost | currency }}</div>
+        <div 
+          class="p-3 text-center font-medium"
+          [ngClass]="{'text-red-600': ingredient.stock < 3, 'text-gray-800': ingredient.stock >= 3}"
+        >
+          {{ ingredient.stock }}
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <button 
+    class="w-full py-2 px-4 bg-coffee-medium hover:bg-coffee-dark text-white rounded-md transition-colors duration-200 flex items-center justify-center gap-2"
+    (click)="restock()"
+    data-test-id="restock-button"
+  >
+    <i class="fas fa-sync-alt"></i> Restock
+  </button>
+</div>

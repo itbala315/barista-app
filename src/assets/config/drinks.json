@@ -1,0 +1,56 @@
+{
+  "drinks": [
+    {
+      "id": "coffee",
+      "name": "Coffee",
+      "recipe": [
+        { "ingredientId": "coffee", "quantity": 3 },
+        { "ingredientId": "sugar", "quantity": 1 },
+        { "ingredientId": "cream", "quantity": 1 }
+      ]
+    },
+    {
+      "id": "decafCoffee",
+      "name": "Decaf Coffee",
+      "recipe": [
+        { "ingredientId": "decafCoffee", "quantity": 3 },
+        { "ingredientId": "sugar", "quantity": 1 },
+        { "ingredientId": "cream", "quantity": 1 }
+      ]
+    },
+    {
+      "id": "caffeLatte",
+      "name": "Caffe Latte",
+      "recipe": [
+        { "ingredientId": "espresso", "quantity": 2 },
+        { "ingredientId": "steamedMilk", "quantity": 1 }
+      ]
+    },
+    {
+      "id": "caffeAmericano",
+      "name": "Caffe Americano",
+      "recipe": [
+        { "ingredientId": "espresso", "quantity": 3 }
+      ]
+    },
+    {
+      "id": "caffeMocha",
+      "name": "Caffe Mocha",
+      "recipe": [
+        { "ingredientId": "espresso", "quantity": 1 },
+        { "ingredientId": "cocoa", "quantity": 1 },
+        { "ingredientId": "steamedMilk", "quantity": 1 },
+        { "ingredientId": "whippedCream", "quantity": 1 }
+      ]
+    },
+    {
+      "id": "cappuccino",
+      "name": "Cappuccino",
+      "recipe": [
+        { "ingredientId": "espresso", "quantity": 2 },
+        { "ingredientId": "steamedMilk", "quantity": 1 },
+        { "ingredientId": "foamedMilk", "quantity": 1 }
+      ]
+    }
+  ]
+}

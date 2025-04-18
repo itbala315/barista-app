@@ -10,37 +10,149 @@ This professional coffee dispensing application was built with Angular 18.
 - Real-time stock monitoring
 - Responsive design for all device sizes
 
-## Application Architecture
+# Barista App Diagrams
+
+## Flowchart: Barista App Workflow
 
 ```mermaid
-graph TD
-    A[App Component] --> B[Drink Menu Component]
-    A --> C[Inventory Component]
-    A --> D[Drink Editor Component]
-    A --> E[Dispenser Component]
+flowchart TD
+    Start([Start]) --> Menu[Display Drink Menu]
+    Menu -->|Select Drink| Dispense[Dispense Drink]
+    Dispense -->|Drink Ready| Inventory[Update Inventory]
+    Inventory -->|Low Stock| Notify[Notify User]
+    Inventory -->|Sufficient Stock| End([End])
+    Notify --> End
+
+    classDef blueNode fill:#4285F4,color:white,stroke:#2A56C6,stroke-width:2px
+    classDef greenNode fill:#34A853,color:white,stroke:#1E8E3E,stroke-width:2px
+    classDef yellowNode fill:#FBBC05,color:#333,stroke:#F9AB00,stroke-width:2px
+    classDef redNode fill:#EA4335,color:white,stroke:#C5221F,stroke-width:2px
     
-    B --> F[Drink Menu Service]
-    C --> F
-    D --> F
-    E --> G[Barista Service]
-    
-    F --> H[(Drinks Data)]
-    G --> F
-    
-    subgraph Services
-    F
-    G
-    end
-    
-    subgraph Models
-    I[Drink Model]
-    J[Ingredient Model]
-    end
-    
-    F --- I
-    F --- J
-    G --- I
+    class Start,End blueNode
+    class Menu,Dispense greenNode
+    class Inventory yellowNode
+    class Notify redNode
 ```
+
+## Layered Architecture Diagram
+
+```mermaid
+graph TB
+    %% Define the subgraphs for each layer
+    subgraph Presentation["Presentation Layer"]
+        UI[User Interface]
+        subgraph Components["Angular Components"]
+            DMenu[Drink Menu Component]
+            DEditor[Drink Editor Component]
+            Disp[Dispenser Component]
+            Inv[Inventory Component]
+        end
+    end
+
+    subgraph Business["Business Logic Layer"]
+        subgraph Services["Services"]
+            BService[Barista Service]
+            DService[Drink Menu Service]
+        end
+    end
+
+    subgraph Data["Data Layer"]
+        Models[Data Models]
+        Assets[JSON Assets]
+        Storage[Local Storage]
+    end
+
+    %% Define relationships between components
+    UI --> Components
+    Components --> Services
+    Services --> Models
+    Services --> Assets
+    Services --> Storage
+
+    %% Detailed connections
+    DMenu --> BService
+    DMenu --> DService
+    DEditor --> DService
+    Disp --> BService
+    Inv --> BService
+    BService --> Models
+    DService --> Models
+    DService --> Assets
+
+    %% Styling
+    classDef presentation fill:#2374ab,color:#fff,stroke:#1a5586,stroke-width:1px
+    classDef business fill:#048a81,color:#fff,stroke:#036b65,stroke-width:1px
+    classDef data fill:#734b5e,color:#fff,stroke:#5a3a4a,stroke-width:1px
+
+    %% Apply styles
+    class Presentation,UI,Components,DMenu,DEditor,Disp,Inv presentation
+    class Business,Services,BService,DService business
+    class Data,Models,Assets,Storage data
+```
+
+## Component Interaction Flow
+```mermaid
+flowchart LR
+    User((User)) -->|Selects Drink| DrinkMenu[Drink Menu]
+    DrinkMenu -->|Request Order| BaristaService[Barista Service]
+    BaristaService -->|Check Inventory| InventoryService[Inventory Service]
+    InventoryService -->|Confirm Stock| BaristaService
+    BaristaService -->|Process Drink| Dispenser[Dispenser]
+    Dispenser -->|Deliver Drink| User
+    
+    User -->|Payment| PaymentSystem[Payment System]
+    PaymentSystem -->|Confirm Payment| BaristaService
+
+    classDef user fill:#4062bb,color:white
+    classDef component fill:#59c9a5,color:#333
+    classDef service fill:#d81159,color:white
+    classDef payment fill:#8a2be2,color:white
+
+    class User user
+    class DrinkMenu,Dispenser component
+    class BaristaService,InventoryService service
+    class PaymentSystem payment
+```
+
+## Technology Stack
+
+```mermaid
+flowchart TD
+    subgraph Frontend["Frontend Technologies"]
+        Angular[Angular Framework]
+        TypeScript[TypeScript]
+        Tailwind[Tailwind CSS]
+        RxJS[RxJS]
+    end
+
+    subgraph Testing["Testing Framework"]
+        Jasmine[Jasmine]
+        Karma[Karma]
+        Protractor[Protractor]
+    end
+
+    subgraph Backend["Backend/Storage"]
+        LocalStorage[Local Storage]
+        JSON[JSON Data Files]
+    end
+
+    Angular --> TypeScript
+    Angular --> Tailwind
+    Angular --> RxJS
+    Angular --> Testing
+    Angular --> Backend
+
+    %% Styling
+    classDef frontend fill:#3c91e6,color:white,stroke:#2a6aa8,stroke-width:1px
+    classDef testing fill:#fa824c,color:white,stroke:#c9673d,stroke-width:1px
+    classDef backend fill:#342e37,color:white,stroke:#221e24,stroke-width:1px
+
+    %% Apply classes
+    class Frontend,Angular,TypeScript,Tailwind,RxJS frontend
+    class Testing,Jasmine,Karma,Protractor testing
+    class Backend,LocalStorage,JSON backend
+```
+
 
 ## Development server
 
@@ -107,10 +219,6 @@ Run `npm run test:ci` to run tests in CI environment.
 The application uses environment-specific configuration files:
 - `environment.ts` for development
 - `environment.prod.ts` for production
-
-## Service Worker and PWA Support
-
-This application supports offline functionality through Angular's Service Worker. The service worker is only active in production builds.
 
 ## Further help
 

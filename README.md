@@ -15,6 +15,10 @@ Before you begin, ensure you have the following installed:
 For Docker deployment:
 - **Docker** (v20.x or later)
 
+## Development Guidelines
+
+Please refer to our [Coding Standards](./CODING_STANDARDS.md) document for guidelines on code style, formatting, and best practices for contributing to this project.
+
 ## Features
 
 - Interactive coffee dispensing interface with animations

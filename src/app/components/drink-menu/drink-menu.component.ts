@@ -32,6 +32,20 @@ export class DrinkMenuComponent implements OnInit {
   hasCustomDrinks = computed(() => {
     return this.baristaService.drinks().some(drink => drink.custom);
   });
+
+   // Computed signals to filter drinks by group
+  coffeeDrinks = computed(() => {
+    return this.baristaService.drinks().filter(drink => 
+      drink.group?.toLowerCase() === 'coffee' || 
+      (!drink.group && this.isCoffeeDrink(drink))
+    );
+  });
+  
+  teaDrinks = computed(() => {
+    return this.baristaService.drinks().filter(drink => 
+      drink.group?.toLowerCase() === 'tea'
+    );
+  });
   
   constructor(
     public baristaService: BaristaService,
@@ -40,6 +54,13 @@ export class DrinkMenuComponent implements OnInit {
 
   ngOnInit(): void {
     // No need to subscribe to signals
+  }
+
+    // Helper method to identify coffee drinks without a group
+  private isCoffeeDrink(drink: Drink): boolean {
+    return drink.recipe.some(ingredient => 
+      ['coffee', 'decafCoffee', 'espresso'].includes(ingredient.ingredientId)
+    );
   }
 
   orderDrink(drinkId: string): void {

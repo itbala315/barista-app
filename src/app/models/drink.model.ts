@@ -11,6 +11,7 @@ export interface Drink {
   recipe: DrinkIngredient[];
   price?: number;
   available?: boolean;
+  group?: string; // Optional group for categorizing drinks
   custom?: boolean; // Flag to indicate if this is a custom user-created drink
 }
 
@@ -19,6 +20,7 @@ export const DEFAULT_DRINKS: Drink[] = [
   {
     id: 'coffee',
     name: 'Coffee',
+    group: 'Coffee',
     recipe: [
       { ingredientId: 'coffee', quantity: 3 },
       { ingredientId: 'sugar', quantity: 1 },
@@ -28,6 +30,7 @@ export const DEFAULT_DRINKS: Drink[] = [
   {
     id: 'decafCoffee',
     name: 'Decaf Coffee',
+    group: 'Coffee',
     recipe: [
       { ingredientId: 'decafCoffee', quantity: 3 },
       { ingredientId: 'sugar', quantity: 1 },
@@ -37,6 +40,7 @@ export const DEFAULT_DRINKS: Drink[] = [
   {
     id: 'caffeLatte',
     name: 'Caffe Latte',
+    group: 'Coffee',
     recipe: [
       { ingredientId: 'espresso', quantity: 2 },
       { ingredientId: 'steamedMilk', quantity: 1 }
@@ -45,6 +49,7 @@ export const DEFAULT_DRINKS: Drink[] = [
   {
     id: 'caffeAmericano',
     name: 'Caffe Americano',
+    group: 'Coffee',
     recipe: [
       { ingredientId: 'espresso', quantity: 3 }
     ]
@@ -52,6 +57,7 @@ export const DEFAULT_DRINKS: Drink[] = [
   {
     id: 'caffeMocha',
     name: 'Caffe Mocha',
+    group: 'Coffee',
     recipe: [
       { ingredientId: 'espresso', quantity: 1 },
       { ingredientId: 'cocoa', quantity: 1 },
@@ -62,6 +68,17 @@ export const DEFAULT_DRINKS: Drink[] = [
   {
     id: 'cappuccino',
     name: 'Cappuccino',
+    group: 'Coffee',
+    recipe: [
+      { ingredientId: 'espresso', quantity: 2 },
+      { ingredientId: 'steamedMilk', quantity: 1 },
+      { ingredientId: 'foamedMilk', quantity: 1 }
+    ]
+  },
+  {
+    id: 'mochhito',
+    name: 'mochhito',
+    group: 'tea',
     recipe: [
       { ingredientId: 'espresso', quantity: 2 },
       { ingredientId: 'steamedMilk', quantity: 1 },

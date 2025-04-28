@@ -22,83 +22,177 @@
     </div>
   </div>
   
-  <div class="space-y-4">
-    <div 
-      *ngFor="let drink of baristaService.drinks(); let i = index" 
-      [ngClass]="{'opacity-60 bg-gray-100': !drink.available, 'bg-coffee-light hover:bg-coffee-light/80': drink.available}"
-      class="rounded-lg transition-all duration-200 overflow-hidden shadow-sm drink-item"
-      [hidden]="drink.custom && !showCustomDrinks()"
-    >
-      <div class="flex items-center justify-between p-4 cursor-pointer" (click)="toggleRecipe(drink.id)">
-        <div class="flex items-center gap-4">
-          <div 
-            class="flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold"
-            [ngClass]="{'bg-coffee-medium text-white': !drink.custom, 'bg-green-500 text-white': drink.custom}"
-          >
-            <i class="fas" [ngClass]="drink.custom ? 'fa-magic' : ''">{{ !drink.custom ? i + 1 : '' }}</i>
-          </div>
-          <div>
-            <div class="font-medium text-gray-800">
-              {{ drink.name }}
-              <span *ngIf="drink.custom" class="ml-2 text-xs text-green-600 font-semibold">(Custom)</span>
+  <!-- Coffee Drinks Section -->
+  <div class="mb-8">
+    <h3 class="text-xl font-bold text-coffee-dark mb-4 flex items-center">
+      <i class="fas fa-coffee mr-2"></i> Coffee Drinks
+    </h3>
+    <div class="space-y-4">
+      <div 
+        *ngFor="let drink of coffeeDrinks(); let i = index" 
+        [ngClass]="{'opacity-60 bg-gray-100': !drink.available, 'bg-coffee-light hover:bg-coffee-light/80': drink.available}"
+        class="rounded-lg transition-all duration-200 overflow-hidden shadow-sm drink-item"
+        [hidden]="drink.custom && !showCustomDrinks()"
+      >
+        <div class="flex items-center justify-between p-4 cursor-pointer" (click)="toggleRecipe(drink.id)">
+          <div class="flex items-center gap-4">
+            <div 
+              class="flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold"
+              [ngClass]="{'bg-coffee-medium text-white': !drink.custom, 'bg-green-500 text-white': drink.custom}"
+            >
+              <i class="fas" [ngClass]="drink.custom ? 'fa-magic' : ''">{{ !drink.custom ? i + 1 : '' }}</i>
             </div>
-            <div class="text-coffee-medium font-bold">{{ drink.price | currency }}</div>
+            <div>
+              <div class="font-medium text-gray-800">
+                {{ drink.name }}
+                <span *ngIf="drink.custom" class="ml-2 text-xs text-green-600 font-semibold">(Custom)</span>
+              </div>
+              <div class="text-coffee-medium font-bold">{{ drink.price | currency }}</div>
+            </div>
+          </div>
+          <div class="flex items-center">
+            <!-- Edit and Delete buttons for custom drinks -->
+            <ng-container *ngIf="drink.custom">
+              <button 
+                class="text-gray-500 hover:text-blue-600 transition-colors p-2" 
+                title="Edit custom drink"
+                (click)="editDrink(drink, $event)"
+              >
+                <i class="fas fa-edit"></i>
+              </button>
+              <button 
+                class="text-gray-500 hover:text-red-600 transition-colors p-2" 
+                title="Delete custom drink"
+                (click)="deleteDrink(drink.id, $event)"
+              >
+                <i class="fas fa-trash"></i>
+              </button>
+            </ng-container>
+            <button class="text-gray-500 hover:text-coffee-dark transition-colors p-2" title="View recipe">
+              <i class="fas" [ngClass]="expandedDrinkId() === drink.id ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+            </button>
           </div>
         </div>
-        <div class="flex items-center">
-          <!-- Edit and Delete buttons for custom drinks -->
-          <ng-container *ngIf="drink.custom">
-            <button 
-              class="text-gray-500 hover:text-blue-600 transition-colors p-2" 
-              title="Edit custom drink"
-              (click)="editDrink(drink, $event)"
-            >
-              <i class="fas fa-edit"></i>
-            </button>
-            <button 
-              class="text-gray-500 hover:text-red-600 transition-colors p-2" 
-              title="Delete custom drink"
-              (click)="deleteDrink(drink.id, $event)"
-            >
-              <i class="fas fa-trash"></i>
-            </button>
-          </ng-container>
-          <button class="text-gray-500 hover:text-coffee-dark transition-colors p-2" title="View recipe">
-            <i class="fas" [ngClass]="expandedDrinkId() === drink.id ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+
+        <!-- Recipe Details -->
+        <div class="px-4 pb-4 pt-0 bg-gray-50" *ngIf="expandedDrinkId() === drink.id">
+          <h4 class="text-sm font-semibold text-gray-700 mb-2">Recipe:</h4>
+          <ul class="text-sm text-gray-600 space-y-1 pl-4 mb-4">
+            <li *ngFor="let recipeItem of drink.recipe" class="flex gap-2">
+              <span class="font-medium">{{ recipeItem.quantity }} unit<span *ngIf="recipeItem.quantity > 1">s</span> of</span>
+              <span class="italic">{{ getIngredientName(recipeItem.ingredientId, baristaService.ingredients()) }}</span>
+            </li>
+          </ul>
+        </div>
+        
+        <!-- Order Button -->
+        <div class="px-4 pb-4">
+          <button 
+            class="w-full py-2 px-4 rounded-md transition-colors duration-200 flex items-center justify-center gap-2"
+            [ngClass]="{'bg-coffee-medium text-white hover:bg-coffee-dark': drink.available, 'bg-gray-200 text-gray-500 cursor-not-allowed': !drink.available}"
+            [disabled]="!drink.available" 
+            (click)="orderDrink(drink.id)"
+          >
+            <i class="fas fa-mug-hot"></i> Order
           </button>
         </div>
       </div>
+    </div>
+  </div>
 
-      <!-- Recipe Details -->
-      <div class="px-4 pb-4 pt-0 bg-gray-50" *ngIf="expandedDrinkId() === drink.id">
-        <h4 class="text-sm font-semibold text-gray-700 mb-2">Recipe:</h4>
-        <ul class="text-sm text-gray-600 space-y-1 pl-4 mb-4">
-          <li *ngFor="let recipeItem of drink.recipe" class="flex gap-2">
-            <span class="font-medium">{{ recipeItem.quantity }} unit<span *ngIf="recipeItem.quantity > 1">s</span> of</span>
-            <span class="italic">{{ getIngredientName(recipeItem.ingredientId, baristaService.ingredients()) }}</span>
-          </li>
-        </ul>
-      </div>
-      
-      <!-- Order Button -->
-      <div class="px-4 pb-4">
-        <button 
-          class="w-full py-2 px-4 rounded-md transition-colors duration-200 flex items-center justify-center gap-2"
-          [ngClass]="{'bg-coffee-medium text-white hover:bg-coffee-dark': drink.available, 'bg-gray-200 text-gray-500 cursor-not-allowed': !drink.available}"
-          [disabled]="!drink.available" 
-          (click)="orderDrink(drink.id)"
-        >
-          <i class="fas fa-mug-hot"></i> Order
-        </button>
+  <!-- Tea Drinks Section -->
+  <div class="mb-8">
+    <h3 class="text-xl font-bold text-green-700 mb-4 flex items-center">
+      <i class="fas fa-leaf mr-2"></i> Tea Drinks
+    </h3>
+    <div class="space-y-4">
+      <div 
+        *ngFor="let drink of teaDrinks(); let i = index" 
+        [ngClass]="{'opacity-60 bg-gray-100': !drink.available, 'bg-green-100 hover:bg-green-200': drink.available}"
+        class="rounded-lg transition-all duration-200 overflow-hidden shadow-sm drink-item"
+        [hidden]="drink.custom && !showCustomDrinks()"
+      >
+        <div class="flex items-center justify-between p-4 cursor-pointer" (click)="toggleRecipe(drink.id)">
+          <div class="flex items-center gap-4">
+            <div 
+              class="flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold"
+              [ngClass]="{'bg-green-600 text-white': !drink.custom, 'bg-green-500 text-white': drink.custom}"
+            >
+              <i class="fas" [ngClass]="drink.custom ? 'fa-magic' : ''">{{ !drink.custom ? i + 1 : '' }}</i>
+            </div>
+            <div>
+              <div class="font-medium text-gray-800">
+                {{ drink.name }}
+                <span *ngIf="drink.custom" class="ml-2 text-xs text-green-600 font-semibold">(Custom)</span>
+              </div>
+              <div class="text-green-700 font-bold">{{ drink.price | currency }}</div>
+            </div>
+          </div>
+          <div class="flex items-center">
+            <!-- Edit and Delete buttons for custom drinks -->
+            <ng-container *ngIf="drink.custom">
+              <button 
+                class="text-gray-500 hover:text-blue-600 transition-colors p-2" 
+                title="Edit custom drink"
+                (click)="editDrink(drink, $event)"
+              >
+                <i class="fas fa-edit"></i>
+              </button>
+              <button 
+                class="text-gray-500 hover:text-red-600 transition-colors p-2" 
+                title="Delete custom drink"
+                (click)="deleteDrink(drink.id, $event)"
+              >
+                <i class="fas fa-trash"></i>
+              </button>
+            </ng-container>
+            <button class="text-gray-500 hover:text-green-700 transition-colors p-2" title="View recipe">
+              <i class="fas" [ngClass]="expandedDrinkId() === drink.id ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Recipe Details -->
+        <div class="px-4 pb-4 pt-0 bg-gray-50" *ngIf="expandedDrinkId() === drink.id">
+          <h4 class="text-sm font-semibold text-gray-700 mb-2">Recipe:</h4>
+          <ul class="text-sm text-gray-600 space-y-1 pl-4 mb-4">
+            <li *ngFor="let recipeItem of drink.recipe" class="flex gap-2">
+              <span class="font-medium">{{ recipeItem.quantity }} unit<span *ngIf="recipeItem.quantity > 1">s</span> of</span>
+              <span class="italic">{{ getIngredientName(recipeItem.ingredientId, baristaService.ingredients()) }}</span>
+            </li>
+          </ul>
+        </div>
+        
+        <!-- Order Button -->
+        <div class="px-4 pb-4">
+          <button 
+            class="w-full py-2 px-4 rounded-md transition-colors duration-200 flex items-center justify-center gap-2"
+            [ngClass]="{'bg-green-600 text-white hover:bg-green-700': drink.available, 'bg-gray-200 text-gray-500 cursor-not-allowed': !drink.available}"
+            [disabled]="!drink.available" 
+            (click)="orderDrink(drink.id)"
+          >
+            <i class="fas fa-mug-hot"></i> Order
+          </button>
+        </div>
       </div>
     </div>
+  </div>
+
+  <!-- Empty state for Tea section -->
+  <div *ngIf="teaDrinks().length === 0" class="mb-8 p-6 bg-gray-50 rounded-lg text-center">
+    <i class="fas fa-leaf text-gray-400 text-4xl mb-3"></i>
+    <p class="text-gray-500">No tea drinks available at the moment</p>
   </div>
 
   <!-- Legend -->
   <div class="flex items-center justify-center mt-6 pt-4 border-t border-gray-200 text-sm text-gray-600">
     <div class="flex items-center mr-4">
       <div class="w-3 h-3 rounded-full bg-coffee-light border border-coffee-medium mr-2"></div>
-      <div>Available</div>
+      <div>Available Coffee</div>
+    </div>
+    <div class="flex items-center mr-4">
+      <div class="w-3 h-3 rounded-full bg-green-100 border border-green-600 mr-2"></div>
+      <div>Available Tea</div>
     </div>
     <div class="flex items-center">
       <div class="w-3 h-3 rounded-full bg-gray-200 border border-gray-300 mr-2"></div>

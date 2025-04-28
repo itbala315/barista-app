@@ -16,5 +16,6 @@ export const DEFAULT_INGREDIENTS: Ingredient[] = [
   { id: 'foamedMilk', name: 'Foamed Milk', cost: 0.35, stock: INITIAL_STOCK },
   { id: 'espresso', name: 'Espresso', cost: 1.10, stock: INITIAL_STOCK },
   { id: 'cocoa', name: 'Cocoa', cost: 0.90, stock: INITIAL_STOCK },
-  { id: 'whippedCream', name: 'Whipped Cream', cost: 1.00, stock: INITIAL_STOCK }
+  { id: 'whippedCream', name: 'Whipped Cream', cost: 1.00, stock: INITIAL_STOCK },
+  { id: 'cinamon', name: 'cinamon', cost: 0.45, stock: INITIAL_STOCK }
 ];

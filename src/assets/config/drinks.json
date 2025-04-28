@@ -3,6 +3,7 @@
     {
       "id": "coffee",
       "name": "Coffee",
+      "group":"coffee",
       "recipe": [
         { "ingredientId": "coffee", "quantity": 3 },
         { "ingredientId": "sugar", "quantity": 1 },
@@ -12,6 +13,7 @@
     {
       "id": "decafCoffee",
       "name": "Decaf Coffee",
+      "group":"coffee",
       "recipe": [
         { "ingredientId": "decafCoffee", "quantity": 3 },
         { "ingredientId": "sugar", "quantity": 1 },
@@ -21,6 +23,7 @@
     {
       "id": "caffeLatte",
       "name": "Caffe Latte",
+      "group":"coffee",
       "recipe": [
         { "ingredientId": "espresso", "quantity": 2 },
         { "ingredientId": "steamedMilk", "quantity": 1 }
@@ -29,6 +32,7 @@
     {
       "id": "caffeAmericano",
       "name": "Caffe Americano",
+      "group":"coffee",
       "recipe": [
         { "ingredientId": "espresso", "quantity": 3 }
       ]
@@ -36,6 +40,7 @@
     {
       "id": "caffeMocha",
       "name": "Caffe Mocha",
+      "group":"coffee",
       "recipe": [
         { "ingredientId": "espresso", "quantity": 1 },
         { "ingredientId": "cocoa", "quantity": 1 },
@@ -46,8 +51,19 @@
     {
       "id": "cappuccino",
       "name": "Cappuccino",
+      "group":"coffee",
       "recipe": [
         { "ingredientId": "espresso", "quantity": 2 },
+        { "ingredientId": "steamedMilk", "quantity": 1 },
+        { "ingredientId": "foamedMilk", "quantity": 1 }
+      ]
+    },
+    {
+      "id": "mochito",
+      "name": "mochito",
+      "group":"tea",
+      "recipe": [
+        { "ingredientId": "cinamon", "quantity": 2 },
         { "ingredientId": "steamedMilk", "quantity": 1 },
         { "ingredientId": "foamedMilk", "quantity": 1 }
       ]
